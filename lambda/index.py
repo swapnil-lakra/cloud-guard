@@ -10,7 +10,7 @@ dynamodb = boto3.resource('dynamodb')
 table_name = os.environ['DYNAMODB_TABLE']
 table = dynamodb.Table(table_name)
 
-def lambda_handle(event, context) :
+def lambda_handler(event, context) :
     account_id = boto3.client('sts').get_caller_identity()['Account']
     findings = []
     
