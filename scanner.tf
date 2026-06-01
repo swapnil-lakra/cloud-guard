@@ -8,7 +8,7 @@ resource "aws_lambda_function" "scanner" {
   function_name    = "${var.project_name}-scanner"
   role             = aws_iam_role.lambda_scanner.arn
   handler          = "index.lambda_handler"
-  runtime          = "python3.9"
+  runtime          = "python3.12"
   timeout          = 60
   memory_size      = 128
   filename         = data.archive_file.scanner_zip.output_path

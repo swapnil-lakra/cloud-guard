@@ -33,6 +33,14 @@ resource "aws_security_group" "ec2_sg" {
     cidr_blocks = [var.my_ip]
   }
 
+  ingress {
+    description = "Grafana (3000) from my IP"
+    from_port   = 3000
+    to_port     = 3000
+    protocol    = "tcp"
+    cidr_blocks = [var.my_ip]
+  }
+
   egress {
     description = "Allow all outbound traffic"
     from_port   = 0

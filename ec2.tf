@@ -4,6 +4,7 @@ resource "aws_instance" "cloudguard_server" {
   key_name               = var.key_name
   vpc_security_group_ids = [aws_security_group.ec2_sg.id]
   subnet_id              = aws_subnet.public_1.id
+  iam_instance_profile   = aws_iam_instance_profile.ec2_profile.name
 
   root_block_device {
     volume_size = 30 # 30 GB free tier eligible

@@ -53,6 +53,7 @@ resource "aws_iam_role_policy" "scanner_permissions" {
       {
         Effect = "Allow"
         Action = [
+          "dynamodb:DescribeTable",
           "dynamodb:PutItem",
           "dynamodb:UpdateItem"
         ]
