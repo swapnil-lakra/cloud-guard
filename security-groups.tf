@@ -18,11 +18,11 @@ resource "aws_security_group" "ec2_sg" {
   }
 
   ingress {
-    description = "HTTP from anywhere (for ALB/Flask test)"
-    from_port   = 80
-    to_port     = 80
+    description = "Flask API from ALB"
+    from_port   = 5000
+    to_port     = 5000
     protocol    = "tcp"
-    cidr_blocks = [var.my_ip]
+    cidr_blocks = [aws_security_group.alb_sg.id]
   }
 
   ingress {
@@ -38,7 +38,7 @@ resource "aws_security_group" "ec2_sg" {
     from_port   = 3000
     to_port     = 3000
     protocol    = "tcp"
-    cidr_blocks = [var.my_ip]
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {
@@ -46,7 +46,7 @@ resource "aws_security_group" "ec2_sg" {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = [var.my_ip]
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   tags = {

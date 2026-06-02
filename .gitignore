@@ -5,3 +5,5 @@ terraform.tfstate
 terraform.tfstate.*
 app/venv
 app/.env
+*.tfvars
+*.tfvars.json
