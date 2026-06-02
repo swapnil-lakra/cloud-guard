@@ -17,6 +17,7 @@ resource "aws_lambda_function" "scanner" {
   environment {
     variables = {
       DYNAMODB_TABLE = aws_dynamodb_table.findings.name
+      SNS_TOPIC_ARN  = aws_sns_topic.cloudguard_alerts.arn
     }
   }
 

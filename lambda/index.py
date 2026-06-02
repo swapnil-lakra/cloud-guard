@@ -37,6 +37,24 @@ def lambda_handler(event, context) :
         table.put_item(Item=item)
         print(f"Stored findings : {item['finding_id']} - {item['severity']}")
     
+    # Publish high severity findings to SNS
+    high_findings = [f for f in findings if f['severity'] == 'HIGH']
+    if high_findings :
+        sns_topic_arn = os.environ['SNS_TOPIC_ARN']
+        if sns_topic_arn :
+           sns_client = boto3.client('sns')
+           message = f"CloudGuard Alert: {len(high_findings)} high severity findings detected. \n\n"
+           for hf in high_findings:
+               message += f"- [{hf['resource_type']}] {hf['details']}\n"
+           sns_client.publish(
+               TopicArn=sns_topic_arn,
+               Subject="CloudGuard High Severity Alert",
+               Message=message
+           )
+           print("Published SNS alert for high severity findings")
+        else :
+            print("SNS_TOPIC_ARN not set, skipping SNS alert")
+    
     return {
         'statusCode' : 200,
         'body' : json.dumps(f"Inserted {len(findings)} findings")
