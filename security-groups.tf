@@ -17,10 +17,10 @@ resource "aws_security_group" "ec2_sg" {
   }
 
   ingress {
-    description = "Flask API from ALB"
-    from_port   = 5000
-    to_port     = 5000
-    protocol    = "tcp"
+    description     = "Flask API from ALB"
+    from_port       = 5000
+    to_port         = 5000
+    protocol        = "tcp"
     security_groups = [aws_security_group.alb_sg.id]
   }
 

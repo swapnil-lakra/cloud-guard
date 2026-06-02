@@ -65,6 +65,16 @@ resource "aws_iam_role_policy" "scanner_permissions" {
           "sns:Publish"
         ]
         Resource = aws_sns_topic.cloudguard_alerts.arn
+      },
+      {
+        Effect = "Allow"
+        Action = [
+          "ec2:DescribeVolumes",
+          "ec2:DescribeSnapshots",
+          "ec2:DescribeInstances",
+          "cloudwatch:GetMetricStatictics"
+        ]
+        Resource = "*"
       }
     ]
   })
