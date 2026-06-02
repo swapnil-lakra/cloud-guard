@@ -1,7 +1,6 @@
-variable "my_ip" {
-  description = "Public IP in CIDR format"
-  type        = string
-  default     = "0.0.0.0/0"
+data "http" "my_public_ip" {
+  url = "https://ipv4.icanhazip.com"
+
 }
 
 resource "aws_security_group" "ec2_sg" {
@@ -14,7 +13,7 @@ resource "aws_security_group" "ec2_sg" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = [var.my_ip]
+    cidr_blocks = ["${chomp(data.http.my_public_ip.response_body)}/32"]
   }
 
   ingress {
@@ -22,7 +21,7 @@ resource "aws_security_group" "ec2_sg" {
     from_port   = 5000
     to_port     = 5000
     protocol    = "tcp"
-    cidr_blocks = [aws_security_group.alb_sg.id]
+    security_groups = [aws_security_group.alb_sg.id]
   }
 
   ingress {
@@ -30,7 +29,7 @@ resource "aws_security_group" "ec2_sg" {
     from_port   = 9090
     to_port     = 9090
     protocol    = "tcp"
-    cidr_blocks = [var.my_ip]
+    cidr_blocks = ["${chomp(data.http.my_public_ip.response_body)}/32"]
   }
 
   ingress {
@@ -38,7 +37,7 @@ resource "aws_security_group" "ec2_sg" {
     from_port   = 3000
     to_port     = 3000
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = ["${chomp(data.http.my_public_ip.response_body)}/32"]
   }
 
   egress {

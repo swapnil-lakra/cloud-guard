@@ -1,3 +1,2 @@
 key_name = "YOUR_KEY_PAIR_NAME"
-my_ip = "YOUR_PUBLIC_IPV4_ADDRESS"
 alert_email = "YOUR_EMAIL_ADDRESS"
