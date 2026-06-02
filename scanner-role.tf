@@ -58,6 +58,13 @@ resource "aws_iam_role_policy" "scanner_permissions" {
           "dynamodb:UpdateItem"
         ]
         Resource = aws_dynamodb_table.findings.arn
+      },
+      {
+        Effect = "Allow"
+        Action = [
+          "sns:Publish"
+        ]
+        Resource = aws_sns_topic.cloudguard_alerts.arn
       }
     ]
   })
