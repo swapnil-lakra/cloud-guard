@@ -21,6 +21,8 @@ resource "aws_lambda_function" "scanner" {
     }
   }
 
+  kms_key_arn = aws_kms_key.cloudguard.arn
+
   depends_on = [aws_iam_role_policy.scanner_permissions, aws_dynamodb_table.findings]
 }
 
