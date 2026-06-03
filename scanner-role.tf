@@ -86,3 +86,23 @@ resource "aws_iam_role_policy" "scanner_permissions" {
     ]
   })
 }
+
+resource "aws_iam_role_policy" "scanner_deny_outside_region" {
+  name = "${var.project_name}-scanner-deny-region"
+  role = aws_iam_role.lambda_scanner.id
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Deny"
+        Action = "*"
+        Resource = "*"
+        Condition = {
+          StringNotEquals = {
+            "aws:RequestedRegion" : var.aws_region
+          }
+        }
+      }
+    ]
+  })
+}
