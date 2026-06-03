@@ -75,6 +75,13 @@ resource "aws_iam_role_policy" "scanner_permissions" {
           "cloudwatch:GetMetricStatictics"
         ]
         Resource = "*"
+      },
+      {
+        Effect = "Allow"
+        Action = [
+          "kms:Decrypt"
+        ]
+        Resource = aws_kms_key.cloudguard.arn
       }
     ]
   })

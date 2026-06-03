@@ -22,4 +22,9 @@ echo "Creating app directory"
 mkdir -p /home/ubuntu/cloudguard-app
 chown ubuntu:ubuntu /home/ubuntu/cloudguard-app
 
+echo "Fetching Grafana admin password from Secrets Manager..."
+GF_PASSWORD=$(aws secretsmanager get-secret-value --secret-id "${aws_secretsmanager_secret.grafana_admin.name}" --region ${var.aws_region} --query SecretString --output text)
+echo "GF_SECURITY_ADMIN_PASSWORD=$GF_PASSWORD" > /home/ubuntu/cloudguard-app/app/grafana.env
+chown ubuntu:ubuntu /home/ubuntu/cloudguard-app/app/grafana.env
+
 echo "User data completed"

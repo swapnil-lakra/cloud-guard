@@ -59,3 +59,20 @@ resource "aws_iam_role_policy" "ec2_cloudwatch" {
     ]
   })
 }
+
+resource "aws_iam_role_policy" "ec2_secrets_read" {
+  name = "${var.project_name}-ec2-secrets-read"
+  role = aws_iam_role.ec2_role.id
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "secretsmanager:GetSecretValue"
+        ]
+        Resource = aws_secretsmanager_secret.grafana_admin.arn
+      }
+    ]
+  })
+}
