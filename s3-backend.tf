@@ -1,29 +1,29 @@
 resource "aws_s3_bucket" "tfstate" {
-    bucket = "cloudguard-tfstate-598120810611"
+  bucket = "cloudguard-tfstate-598120810611"
 }
 
 resource "aws_s3_bucket_versioning" "tfstate" {
-    bucket = aws_s3_bucket.tfstate.id
-    versioning_configuration {
-      status = "Enabled"
-    }
+  bucket = aws_s3_bucket.tfstate.id
+  versioning_configuration {
+    status = "Enabled"
+  }
 }
 
 resource "aws_s3_bucket_server_side_encryption_configuration" "tfstate" {
-    bucket = aws_s3_bucket.tfstate.id
-    rule {
-        apply_server_side_encryption_by_default {
-          kms_master_key_id = aws_kms_key.cloudguard.arn
-          sse_algorithm = "aws:kms"
-        }
-        bucket_key_enabled = true
+  bucket = aws_s3_bucket.tfstate.id
+  rule {
+    apply_server_side_encryption_by_default {
+      kms_master_key_id = aws_kms_key.cloudguard.arn
+      sse_algorithm     = "aws:kms"
     }
+    bucket_key_enabled = true
+  }
 }
 
 resource "aws_s3_bucket_public_access_block" "tfstate" {
-    bucket = aws_s3_bucket.tfstate.id
-    block_public_acls = true
-    block_public_policy = true
-    ignore_public_acls = true
-    restrict_public_buckets = true
+  bucket                  = aws_s3_bucket.tfstate.id
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
 }

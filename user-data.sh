@@ -23,7 +23,9 @@ mkdir -p /home/ubuntu/cloudguard-app
 chown ubuntu:ubuntu /home/ubuntu/cloudguard-app
 
 echo "Fetching Grafana admin password from Secrets Manager..."
-GF_PASSWORD=$(aws secretsmanager get-secret-value --secret-id "${aws_secretsmanager_secret.grafana_admin.name}" --region ${var.aws_region} --query SecretString --output text)
+SECRET_NAME=${secret_name}
+REGION=${aws_region}
+GF_PASSWORD=$(aws secretsmanager get-secret-value --secret-id "$SECRET_NAME" --region "$REGION" --query SecretString --output text)
 echo "GF_SECURITY_ADMIN_PASSWORD=$GF_PASSWORD" > /home/ubuntu/cloudguard-app/app/grafana.env
 chown ubuntu:ubuntu /home/ubuntu/cloudguard-app/app/grafana.env
 

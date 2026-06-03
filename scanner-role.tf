@@ -94,8 +94,8 @@ resource "aws_iam_role_policy" "scanner_deny_outside_region" {
     Version = "2012-10-17"
     Statement = [
       {
-        Effect = "Deny"
-        Action = "*"
+        Effect   = "Deny"
+        Action   = "*"
         Resource = "*"
         Condition = {
           StringNotEquals = {

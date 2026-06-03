@@ -11,7 +11,10 @@ resource "aws_instance" "cloudguard_server" {
     volume_type = "gp2"
   }
 
-  user_data_base64 = base64encode(templatefile("${path.module}/user-data.sh", {}))
+  user_data_base64 = base64encode(templatefile("${path.module}/user-data.sh", {
+    secret_name = aws_secretsmanager_secret.grafana_admin.name
+    aws_region = var.aws_region
+  }))
 
   tags = {
     Name = "${var.project_name}-server"
