@@ -13,7 +13,7 @@ resource "aws_instance" "cloudguard_server" {
 
   user_data_base64 = base64encode(templatefile("${path.module}/user-data.sh", {
     secret_name = aws_secretsmanager_secret.grafana_admin.name
-    aws_region = var.aws_region
+    aws_region  = var.aws_region
   }))
 
   tags = {

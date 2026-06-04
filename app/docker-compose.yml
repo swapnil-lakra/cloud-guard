@@ -31,8 +31,10 @@ services:
     container_name: grafana
     ports:
       - "3000:3000"
+    env_file:
+      - ./grafana.env
     environment:
-      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_SECURITY_ADMIN_USER=admin
     restart: unless-stopped
     networks:
       - cloudguard-network
