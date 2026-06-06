@@ -1,339 +1,92 @@
 # CloudGuard – Automated AWS Security & Cost Optimizer
 
-## Overview
-
-CloudGuard is an AWS-native security and cost optimization platform designed to help organizations continuously monitor their cloud environments for security misconfigurations and unnecessary spending.
-
-Modern AWS environments often contain hundreds of resources spread across multiple services. Identifying security risks such as public S3 buckets, overly permissive security groups, missing MFA enforcement, and unencrypted resources can be challenging. At the same time, cloud costs can rapidly increase due to idle compute instances, unattached storage volumes, and outdated snapshots.
-
-CloudGuard automates this process by scanning AWS resources, generating actionable findings, calculating a security posture score, identifying cost-saving opportunities, and visualizing insights through an interactive dashboard.
-
-This project combines the concepts of:
-
-* Cloud Security Posture Management (CSPM)
-* FinOps & Cloud Cost Optimization
-* Infrastructure as Code (IaC)
-* Monitoring & Observability
-* Cloud Automation
-
----
-
-## Business Problem
-
-Organizations often struggle with:
-
-### Security Challenges
-
-* Publicly accessible S3 buckets
-* Security groups exposing sensitive ports
-* IAM users without MFA enabled
-* Overly permissive IAM policies
-* Unencrypted storage resources
-* Poor visibility into security posture
-
-### Cost Optimization Challenges
-
-* Idle EC2 instances
-* Unattached EBS volumes
-* Unused Elastic IP addresses
-* Outdated snapshots
-* Overprovisioned resources
-* Lack of cost visibility
-
-Manual audits are time-consuming, error-prone, and difficult to scale.
-
-CloudGuard provides an automated solution to continuously detect these issues and recommend corrective actions.
-
----
-
-## Key Features
-
-### Security Assessment
-
-* Detect public S3 buckets
-* Identify open security groups
-* Check IAM MFA compliance
-* Verify encryption settings
-* Analyze IAM policy risks
-* Generate overall security score
-
-### Cost Optimization
-
-* Detect idle EC2 instances
-* Identify unattached EBS volumes
-* Find unused snapshots
-* Highlight underutilized resources
-* Generate cost-saving recommendations
-* Estimate monthly savings
-
-### Monitoring & Alerting
-
-* CloudWatch logging
-* SNS email notifications
-* Prometheus metrics collection
-* Grafana dashboards
-* Infrastructure health monitoring
-
-### Automation
-
-* Scheduled AWS account scans
-* Automated finding collection
-* Real-time dashboard updates
-* Infrastructure deployment using Terraform
-
----
-
-## Architecture
-
-### Core Components
-
-#### AWS Lambda (Python)
-
-Responsible for:
-
-* Security scans
-* Cost analysis
-* AWS API interactions via Boto3
-* Scheduled account assessments
-
-#### DynamoDB
-
-Stores:
-
-* Scan findings
-* Security results
-* Cost recommendations
-* Historical scan data
-
-#### EC2 (t2.micro)
-
-Hosts:
-
-* Flask API
-* Prometheus
-* Grafana
-
-#### SNS
-
-Responsible for:
-
-* Email alerts
-* Critical security notifications
-
-#### CloudWatch
-
-Provides:
-
-* Application logs
-* Metrics
-* Alarms
-* Monitoring
-
-#### Secrets Manager
-
-Stores:
-
-* Sensitive credentials
-* API secrets
-* Configuration values
-
----
-
-## Infrastructure Architecture
-
-### VPC Design
-
-Custom VPC with:
-
-* Internet Gateway
-* 2 Public Subnets across multiple Availability Zones
-* Route Tables
-* Application Load Balancer
-* EC2 Instance
-* Security Groups
-
-### Network Flow
-
-Internet User
-↓
-Application Load Balancer
-↓
-Flask API (EC2)
-↓
-DynamoDB
-↓
-Dashboard
-
-AWS Lambda
-↓
-AWS Account Scan
-↓
-DynamoDB Findings
-↓
-SNS Alerts
-
----
-
-## Technology Stack
-
-### Cloud Platform
-
-* AWS
-
-### Infrastructure as Code
-
-* Terraform
-
-### Programming
-
-* Python 3.9
-* Bash
-
-### Backend
-
-* Flask
-
-### Monitoring
-
-* Prometheus
-* Grafana
-* CloudWatch
-
-### Database
-
-* DynamoDB
-
-### Storage
-
-* Amazon S3
-
-### Security
-
-* IAM
-* AWS KMS
-* Secrets Manager
-
----
-
-## Skills Demonstrated
-
-### Linux & Operating Systems
-
-* EC2 administration
-* Systemd services
-* Cron jobs
-* Process management
-* File permissions
-
-### Networking
-
-* VPC design
-* Subnets
-* Route tables
-* Security groups
-* Load balancing
-
-### Cloud Security
-
-* IAM roles
-* Least privilege access
-* S3 policies
-* Encryption
-* Secrets management
-
-### Infrastructure as Code
-
-* Terraform modules
-* Remote state management
-* Infrastructure automation
-
-### Scripting & Automation
-
-* Python automation
-* AWS SDK (Boto3)
-* Error handling
-* Scheduled workflows
-
-### Monitoring & Observability
-
-* Metrics collection
-* Dashboards
-* Logging
-* Alerting
-
-### FinOps
-
-* Resource utilization analysis
-* Cost optimization
-* Rightsizing recommendations
-* Waste detection
-
-### Troubleshooting
-
-* Incident investigation
-* Root cause analysis
-* Cloud debugging
-* Infrastructure diagnostics
-
----
-
-## Example Findings
-
-### Security Finding
-
-Risk: Public S3 Bucket Detected
-
-Severity: High
-
-Recommendation:
-
-* Disable public access
-* Enable bucket encryption
-* Apply least-privilege bucket policy
-
-### Cost Finding
-
-Resource: Idle EC2 Instance
-
-Monthly Cost: $18
-
-Recommendation:
-
-* Stop or terminate instance
-* Consider Auto Scaling
-
-Estimated Savings: $216/year
-
----
-
-## Future Enhancements
-
-* Multi-account AWS support
-* AWS Organizations integration
-* CIS Benchmark compliance checks
-* Automated remediation workflows
-* Slack and Microsoft Teams alerts
-* AI-powered risk prioritization
-* Cost forecasting and budgeting
-* Kubernetes (EKS) scanning
-
----
-
-## Learning Outcomes
-
-By building CloudGuard, engineers gain hands-on experience in:
-
-* AWS Architecture
-* Cloud Security
-* FinOps
-* Infrastructure as Code
-* Monitoring & Observability
-* Python Automation
-* Incident Response
-* Production-Grade Cloud Operations
-
----
-
-## Disclaimer
-
-CloudGuard is an educational and portfolio project designed to demonstrate real-world Cloud Security, FinOps, Infrastructure Automation, and AWS Engineering practices.
+CloudGuard is a serverless-first Cloud Security Posture Management (CSPM) and FinOps tool that continuously scans an AWS account for security misconfigurations and cost-saving opportunities, visualizes findings on a real-time dashboard, and sends alerts.
+
+## 🔧 Features
+
+- **Security Scanning:** Public S3 buckets, open security groups, IAM users without MFA.
+- **Cost Optimization:** Unused EBS volumes, old snapshots, idle EC2 instances with estimated monthly savings.
+- **Real-time Dashboard:** Grafana dashboards with Prometheus metrics (security findings count, total savings).
+- **Alerting:** SNS email alerts for high-severity findings.
+- **Infrastructure as Code:** Entire stack defined in Terraform, remote state with locking.
+- **Secrets Management:** Grafana password stored in AWS Secrets Manager, KMS encryption for sensitive data.
+- **Least Privilege IAM:** Custom IAM roles with resource-level permissions.
+
+## 🏗️ Architecture
+
+[Internet]
+    |
+    v
+[Application Load Balancer] (HTTP :80)
+    |
+    v
+[Target Group :5000] --> [EC2 Instance (t2.micro)]
+                             |
+                             | Docker Containers:
+                             | - Flask API (Python)
+                             | - Prometheus
+                             | - Grafana
+                             | (Secrets Manager for Grafana password)
+                             |
+                             | IAM Role: DynamoDB read, Secrets Manager read
+                             v
+                         [DynamoDB Table: cloudguard-findings]
+                             ^
+                             | (writes)
+                             |
+[AWS Lambda (scanner)]        |
+  - Python Boto3              |
+  - Hourly CloudWatch Event   |
+  - Env vars encrypted (KMS)  |
+  - IAM Role: S3, EC2, IAM, DynamoDB, SNS, CloudWatch, KMS
+                             |
+                             v
+                         [SNS Topic] --> Email (alert)
+                         
+[VPC: 10.0.0.0/16]
+  - 2 Public Subnets (10.0.1.0/24, 10.0.2.0/24)
+  - Internet Gateway
+  - Security Groups (EC2, ALB)
+  
+[KMS Key] <-- encrypts Lambda env, S3 state bucket
+[Secrets Manager] <-- Grafana admin password
+[S3 bucket] <-- Terraform remote state (encrypted, versioned)
+
+## 🚀 Tech Stack
+
+- **Cloud:** AWS (Lambda, DynamoDB, EC2, ALB, SNS, S3, KMS, Secrets Manager)
+- **IaC:** Terraform (remote state S3 + DynamoDB lock)
+- **Backend:** Python (Flask, Boto3)
+- **Containerization:** Docker, Docker Compose
+- **Monitoring:** Prometheus, Grafana
+- **CI/CD (optional):** GitHub Actions (planned)
+
+## 📈 Key Metrics
+
+- Findings tracked: 3 security checks + 3 cost checks
+- Estimated monthly savings calculated per resource
+- Dashboard with real-time metrics
+
+## 📚 Skills Demonstrated
+
+1. Linux & OS Fundamentals
+2. Networking (VPC, ALB, Security Groups)
+3. Cloud Security & IAM (least privilege, KMS, Secrets Manager)
+4. Infrastructure as Code (Terraform, remote state, idempotency)
+5. Scripting & Automation (Python/Boto3)
+6. Monitoring & Observability (Prometheus, Grafana, logs)
+7. FinOps / Cloud Cost Optimization
+8. Troubleshooting & Problem Solving (simulated RCA scenarios)
+
+## 🛠️ How to Deploy
+
+1. Clone repo.
+2. Configure AWS CLI profile `cloudguard`.
+3. Fill `terraform.tfvars` with your `key_name`, `my_ip`, `alert_email`.
+4. `terraform init` & `terraform apply`.
+5. Wait for EC2 userdata, then SSH to instance and run `docker-compose up -d` in `app/` directory.
+6. Invoke Lambda manually to see findings, open Grafana dashboard.
+
+## ⚠️ Cleanup
+
+To avoid ongoing costs, run `terraform destroy` after use. Ensure S3 state bucket and DynamoDB lock table are also deleted manually if desired.
